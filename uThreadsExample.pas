@@ -13,16 +13,30 @@ uses
   Vcl.Forms,
   Vcl.Dialogs,
   Vcl.StdCtrls,
-  System.Threading;
+  System.Threading,
+  System.IOUtils,
+  System.Math,
+  System.Generics.Collections;
 
 type
+  Tarq2 = record
+    numero:cardinal;
+    datahora: TDateTime;
+    quant: integer;
+    preco:  Currency;
+    comprador:integer;
+    vendedor:integer;
+  end;
+
   TFrmThreads = class(TForm)
     Button1 : TButton;
     Button2: TButton;
     Button3: TButton;
+    Button4: TButton;
     procedure Button1Click(Sender : TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
   private
     { Private declarations }
 
@@ -35,6 +49,7 @@ type
 
 var
   FrmThreads : TFrmThreads;
+  histfr : TList<TArq2>;
 
 implementation
 
@@ -82,6 +97,46 @@ begin
        { FazAlgumaCoisa(ListaArquivos[i]); }
       end)
   end);
+end;
+
+procedure TFrmThreads.Button4Click(Sender: TObject);
+var
+  vLinha : string;
+  vHora : TDateTime;
+  I: Integer;
+  vDiretorio : TArray<string>;
+  vMedia : array of Tarq2;
+  FileHandle: File of Tarq2;
+  vIndex : integer;
+  vNome : string;
+  vStream : TStream;
+  vMediaObjeto : Tarq2;
+  BlockSize : Integer;
+  BytesToRead: Integer;
+begin
+  vDiretorio := TDirectory.GetFiles('myfiles');
+  ShowMessage(IntToStr(Length(vDiretorio)));
+  vhora := Now;
+  vIndex := 0;
+  BlockSize := 1000000;
+  histfr := TList<TArq2>.Create;
+  for vIndex := 0 to High(vDiretorio) do
+  begin
+    vNome := vDiretorio[vIndex];
+    vStream := TFileStream.Create(vNome, fmOpenRead);
+    try
+      while vStream.Position < vStream.Size do
+      begin
+        BytesToRead := Min(BlockSize * SizeOf(Tarq2), vStream.Size - vStream.Position);
+        SetLength(vMedia, BytesToRead div SizeOf(Tarq2));
+        vStream.ReadBuffer(vMedia[0], BytesToRead);
+        for vMediaObjeto in vMedia do
+          histfr.Add(vMediaObjeto);
+      end;
+    finally
+      vStream.Free;
+    end;
+  end;
 end;
 
 procedure TFrmThreads.ShowSoma;

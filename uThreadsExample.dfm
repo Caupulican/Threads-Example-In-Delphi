@@ -3,7 +3,7 @@ object FrmThreads: TFrmThreads
   Top = 0
   Caption = 'Thread Examples with ITask'
   ClientHeight = 83
-  ClientWidth = 267
+  ClientWidth = 319
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -25,7 +25,7 @@ object FrmThreads: TFrmThreads
   object Button2: TButton
     Left = 143
     Top = 8
-    Width = 98
+    Width = 146
     Height = 25
     Caption = 'Thread Array'
     TabOrder = 1
@@ -39,5 +39,14 @@ object FrmThreads: TFrmThreads
     Caption = 'Paralel For'
     TabOrder = 2
     OnClick = Button3Click
+  end
+  object Button4: TButton
+    Left = 143
+    Top = 34
+    Width = 146
+    Height = 25
+    Caption = 'LoadFiles Without Threads'
+    TabOrder = 3
+    OnClick = Button4Click
   end
 end
