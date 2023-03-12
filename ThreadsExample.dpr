@@ -2,7 +2,8 @@ program ThreadsExample;
 
 uses
   Vcl.Forms,
-  uThreadsExample in 'uThreadsExample.pas' {FrmThreads};
+  uThreadsExample in 'uThreadsExample.pas' {FrmThreads},
+  WhileTrue in 'WhileTrue.pas';
 
 {$R *.res}
 
